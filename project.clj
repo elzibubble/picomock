@@ -1,4 +1,4 @@
-(defproject audiogum/picomock "0.1.8-SNAPSHOT"
+(defproject audiogum/picomock "0.1.8"
   :description "Simple mocking helper library"
   :url "https://github.com/audiogum/picomock"
 
