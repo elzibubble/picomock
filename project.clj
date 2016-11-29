@@ -1,4 +1,4 @@
-(defproject audiogum/picomock "0.1.8"
+(defproject audiogum/picomock "0.1.9"
   :description "Simple mocking helper library"
   :url "https://github.com/audiogum/picomock"
   :license {:name "Eclipse Public License - v 1.0"
