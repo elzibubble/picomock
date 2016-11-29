@@ -1,0 +1,36 @@
+#!/bin/bash
+
+red=$'\e[31m'
+green=$'\e[32m'
+blue=$'\e[34m'
+clear=$'\e[0m'
+
+exit_if_fail () {
+    if [ $? -ne 0 ]
+    then
+        printf "%b" $red
+        printf "\n"
+        printf "     FAIL WHALE!\n"
+        printf "%b" $blue
+        printf "\n"
+        printf "W     W      W        \n"
+        printf "W        W  W     W    \n"
+        printf "              '.  W      \n"
+        printf "  .-\"\"-._     \ \.--|  \n"
+        printf " /       \"-..__) .-'   \n"
+        printf "|     _         /      \n"
+        printf "\\'-.__,   .__.,'       \n"
+        printf " \''----'._\\--'      \n\n"
+        printf "%s test failure! Why would you even write something like that?\n" $1
+        printf "%b" $clear
+        exit 1
+    fi
+}
+
+echo "Running tests"
+lein test
+exit_if_fail Unit
+
+echo "Cool"
+
+exit 0
