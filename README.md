@@ -47,7 +47,7 @@ Trivial example:
            (first (mock-args mymock))))))
 ```
 
-For more examples see unit tests.
+For more examples see [unit tests](https://github.com/audiogum/picomock/blob/master/test/picomock/unit/core.clj)
 
 
 
