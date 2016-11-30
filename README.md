@@ -25,7 +25,7 @@ next from these values")
 
 Add this to dependencies of your project.clj:
 
-`[audiogum/picomock "0.1.5"]`
+![](https://clojars.org/audiogum/picomock/latest-version.svg)
 
 Trivial example:
 ```
