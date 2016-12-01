@@ -28,7 +28,8 @@ In this trivial example, we provide a simple `mock` to our function under test, 
 
 ```clojure
 (ns mytests
-  (:require [picomock.core :refer [mock mock-calls mock-args]])
+  (:require [picomock.core :as pico]
+            [clojure.test :refer :all]))
   
 (defn function-under-test
   "I just call the function I'm given passing it some values"
@@ -36,13 +37,13 @@ In this trivial example, we provide a simple `mock` to our function under test, 
   (f 2 3))
   
 (deftest function-under-test-works
-  (let [mymock (mock (fn [a b] (* a b)))]
+  (let [mymock (pico/mock (fn [a b] (* a b)))]
     (is (= 6
            (function-under-test mymock)))
     (is (= 1
-           (mock-calls mymock)))
+           (pico/mock-calls mymock)))
     (is (= '(2 3)
-           (first (mock-args mymock))))))
+           (first (pico/mock-args mymock))))))
 ```
 
 `picomock` helps particularly where your unit under test depends on stateful dependencies - for example data stores or external services. Sequences of values or functions can be provided for cases where the test expects to use the dependency multiple times and get different results. 
@@ -61,11 +62,11 @@ many times the dependency was called and inspect the arguments passed each time.
         (recur (conj s nextresult))))))
         
 (deftest call-me-until-stop-works
-  (let [mockf (mockvals [:a :b :c :stop])]
+  (let [mockf (pico/mockvals [:a :b :c :stop])]
     (is (= [:a :b :c]
            (call-me-until-stop mockf)))
     (is (= 4
-           (mock-calls mockf)))))
+           (pico/mock-calls mockf)))))
 ```
 
 For more examples see [unit tests](https://github.com/audiogum/picomock/blob/master/test/picomock/unit/core.clj).
