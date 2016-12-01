@@ -45,9 +45,10 @@ In this trivial example, we provide a simple `mock`, checking that the dependenc
            (first (mock-args mymock))))))
 ```
 
-`picomock` helps particularly where your unit under test depends on stateful dependencies - for example data stores or external services. Sequences of values or functions can be provided for cases where the test expects to use the dependency multiple times and get different results. When done, to assert correct behaviour `picomock` allows you to check how many times the mock was called and inspect the arguments of each call. 
+`picomock` helps particularly where your unit under test depends on stateful dependencies - for example data stores or external services. Sequences of values or functions can be provided for cases where the test expects to use the dependency multiple times and get different results. 
 
-In this example, we use `mockvals` to simulate state change by providing a sequence of returned values. For more complex stateful cases, `mock` can be used instead, providing a sequence of functions to call. 
+In the following example we use `mockvals` to simulate state change by providing a sequence of returned values. For more complex stateful cases, `mock` can be used instead, providing a sequence of functions to call. In either case, we can of course check how
+many times the dependency was called and inspect the arguments passed each time.
 
 ```clojure
 (defn call-me-until-stop
@@ -67,7 +68,9 @@ In this example, we use `mockvals` to simulate state change by providing a seque
            (mock-calls mockf)))))
 ```
 
-For more examples see [unit tests](https://github.com/audiogum/picomock/blob/master/test/picomock/unit/core.clj)
+For more examples see [unit tests](https://github.com/audiogum/picomock/blob/master/test/picomock/unit/core.clj).
+
+Happy mocking! :)
 
 
 
