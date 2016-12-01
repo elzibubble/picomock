@@ -24,7 +24,7 @@ values to return, in sequence order each time the mock is used - useful for simu
 
 `picomock` is intended as a convenience library for unit testing `clojure` code with dependencies. Compared to other testing frameworks, there is very little here, no macros or mechanisms to reach "under the hood" and replace pieces of code. `picomock` is designed to support and encourage a coding style where external dependencies and state are kept decoupled from the logic of the application so that as much of the codebase as possible is "pure" and therefore unit testable. This implies dependencies are explicitly passed, supporting simple mocking techniques. For example this may be via `protocol` implementations or simply passing functions.
 
-In this trivial example, we provide a simple `mock`, checking that the dependency is called and that the correct arguments were passed:
+In this trivial example, we provide a simple `mock` to our function under test, then check that the dependency is called and that the correct arguments were passed:
 
 ```clojure
 (ns mytests
