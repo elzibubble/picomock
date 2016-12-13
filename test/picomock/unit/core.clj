@@ -2,6 +2,20 @@
   (:require [picomock.core :refer :all]
             [clojure.test :refer :all]))
 
+;; example 0: a mock that captures calls and always returns nil to callers
+
+(deftest mock-with-no-fn-works-as-spy
+  (let [mymock (mock)]
+    (testing "the mock returns expected result"
+      (is (nil? (mymock 2 3))))
+    (testing "the mock has recorded the right number of calls"
+      (is (= 1 (mock-calls mymock))
+          "My mock wasn't called right number of times"))
+    (testing "the mock captured the right arguments"
+      (is (= '(2 3)
+             (first (mock-args mymock)))
+          "First call to my mock had wrong args"))))
+
 ;; example 1: passing a mock to a function that takes a function argument
 
 (defn example-function
