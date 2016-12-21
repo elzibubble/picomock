@@ -78,11 +78,13 @@
     v))
 
 (defn mock
-  [f-or-fs]
-  (->Picomock
-   (create-call-state* (if (sequential? f-or-fs)
-                         f-or-fs
-                         [f-or-fs]))))
+  ([]
+   (mock (constantly nil)))
+  ([f-or-fs]
+   (->Picomock
+    (create-call-state* (if (sequential? f-or-fs)
+                          f-or-fs
+                          [f-or-fs])))))
 
 (defn mockval
   [retval]
