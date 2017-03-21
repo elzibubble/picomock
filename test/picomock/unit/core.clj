@@ -132,3 +132,48 @@
            (call-me-until-stop mockf)))
     (is (= 4
            (mock-calls mockf)))))
+
+
+;; example 7: mocking for async behaviour using pauses and timings
+
+(defn call-stuff-in-futures
+  [f1 f2 f3 f4]
+  (let [future-f1 (future (f1))
+        future-f2 (future (f2))
+        r1 @future-f1
+        future-f3 (future (f3)) ; mimic f3 depending on f1 finishing, but not f2
+        r2 @future-f2
+        r3 @future-f3
+        future-f4 (future (f4)) ; mimic f4 depending on f2 and f3 finishing
+        r4 @future-f4]
+    [r1 r2 r3 r4]))
+
+(deftest call-stuff-in-futures-works
+  (let [mf1 (mockval :1 100)
+        mf2 (mockval :2 200) ; takes longer than f1
+        mf3 (mockval :3 100)
+        mf4 (mockval :4 100)]
+    (call-stuff-in-futures mf1 mf2 mf3 mf4)
+    (testing "all mocks were called once"
+      (is (= 1
+             (mock-calls mf1)
+             (mock-calls mf2)
+             (mock-calls mf3)
+             (mock-calls mf4))))
+    (testing "f1 started before f3 started"
+      (is (< (first (mock-starttimes mf1))
+             (first (mock-starttimes mf3)))))
+    (testing "f2 started no later than f3 started"
+      (is (<= (first (mock-starttimes mf2))
+              (first (mock-starttimes mf3)))))
+    (testing "f3 started before f2 completed"
+      (is (< (first (mock-starttimes mf3))
+             (first (mock-completetimes mf2)))))
+    (testing "f3 started no earlier than f1 completed"
+      (is (>= (first (mock-starttimes mf3))
+              (first (mock-completetimes mf1)))))
+    (testing "f4 started no earlier than f3 and f2 completed"
+      (is (>= (first (mock-starttimes mf4))
+              (first (mock-completetimes mf2)))
+          (>= (first (mock-starttimes mf4))
+              (first (mock-completetimes mf3)))))))

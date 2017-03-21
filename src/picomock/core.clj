@@ -1,12 +1,15 @@
 (ns picomock.core)
 
 (defn create-call-state*
-  [functions]
+  [functions & [pausems]]
   (atom {:callcount 0
          :args []
-         :functions functions}))
+         :starttimes []
+         :completetimes []
+         :functions functions
+         :pausems pausems}))
 
-(defn update-call-state*
+(defn update-call-state-pre*
   [callstate args]
   (swap! callstate
          (fn [cs]
@@ -15,18 +18,36 @@
                        (fn [a]
                          (conj a args)))
                (update :callcount
-                       inc)))))
+                       inc)
+               (update :starttimes
+                       (fn [s]
+                         (conj s (System/currentTimeMillis))))))))
+
+(defn update-call-state-post*
+  [callstate]
+  (swap! callstate
+         (fn [cs]
+           (-> cs
+               (update :completetimes
+                       (fn [c]
+                         (conj c (System/currentTimeMillis))))))))
 
 (defn invoke*
   [callstate & args]
-  (let [{:keys [functions callcount]} @callstate
+  (let [{:keys [functions callcount pausems]} @callstate
         f (nth (cycle functions) callcount)]
-    (update-call-state* callstate args)
-    (apply f args)))
+    (update-call-state-pre* callstate args)
+    (let [result (apply f args)]
+      (when pausems
+        (Thread/sleep pausems))
+      (update-call-state-post* callstate)
+      result)))
 
 (defprotocol Mock
   (mock-calls [this])
-  (mock-args [this]))
+  (mock-args [this])
+  (mock-starttimes [this])
+  (mock-completetimes [this]))
 
 (defrecord Picomock [callstate]
   Mock
@@ -34,6 +55,10 @@
     (:callcount @callstate))
   (mock-args [this]
     (:args @callstate))
+  (mock-starttimes [this]
+    (:starttimes @callstate))
+  (mock-completetimes [this]
+    (:completetimes @callstate))
   clojure.lang.IFn
   (invoke [this]
     (invoke* callstate))
@@ -87,11 +112,11 @@
                           [f-or-fs])))))
 
 (defn mockval
-  [retval]
+  [retval & [pausems]]
   (->Picomock
-   (create-call-state* [(val->fn retval)])))
+   (create-call-state* [(val->fn retval)] pausems)))
 
 (defn mockvals
-  [retvals]
+  [retvals & [pausems]]
   (->Picomock
-   (create-call-state* (map val->fn retvals))))
+   (create-call-state* (map val->fn retvals) pausems)))
