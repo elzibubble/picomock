@@ -2,7 +2,7 @@
 
 ![](https://clojars.org/audiogum/picomock/latest-version.svg)
 
-Tiny library for mocking function dependencies. 
+Picomock is a simple mocking library for testing clojure code with function dependencies.
 
 Feature overview:
 
@@ -19,6 +19,8 @@ the arguments of each call (no enforced expectations mechanism)
 
 * Create a mock using a sequence of functions to be called, or sequence of
 values to return, in sequence order each time the mock is used - useful for simulating stateful dependencies
+
+* Inspect start and complete times of mock calls and create mocks that pause when called - useful for testing parallel processing behaviour
 
 ## Rationale and examples
 
