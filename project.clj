@@ -8,6 +8,9 @@
 
   :profiles {:dev {:dependencies [[org.clojure/clojure "1.8.0"]]}}
 
+  :repositories [["releases" {:url "https://clojars.org/repo"
+                              :creds :gpg}]]
+
   :release-tasks [["vcs" "assert-committed"]
                   ["change" "version" "leiningen.release/bump-version" "release"]
                   ["vcs" "commit"]
