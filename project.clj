@@ -1,4 +1,4 @@
-(defproject lxsli/picomock "0.1.12-SNAPSHOT"
+(defproject lxsli/picomock "0.1.12"
   :description "Simple mocking helper library"
   :url "https://github.com/lxsli/picomock"
   :license {:name "Eclipse Public License - v 1.0"
