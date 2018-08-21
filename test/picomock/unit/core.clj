@@ -177,3 +177,12 @@
               (first (mock-completetimes mf2)))
           (>= (first (mock-starttimes mf4))
               (first (mock-completetimes mf3)))))))
+
+;; example 8: calling `apply` on a mock
+
+(deftest apply-mock
+  (let [m (mock)]
+    (apply m 1 2 [3 4])
+    (testing "all args were received"
+      (is (= ['(1 2 3 4)]
+             (mock-args m))))))
