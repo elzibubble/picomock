@@ -1,6 +1,6 @@
-(defproject audiogum/picomock "0.1.11-SNAPSHOT"
+(defproject lxsli/picomock "0.1.11-SNAPSHOT"
   :description "Simple mocking helper library"
-  :url "https://github.com/audiogum/picomock"
+  :url "https://github.com/lxsli/picomock"
   :license {:name "Eclipse Public License - v 1.0"
             :url "http://www.eclipse.org/legal/epl-v10.html"
             :distribution :repo
