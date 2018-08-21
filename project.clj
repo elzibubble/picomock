@@ -1,4 +1,4 @@
-(defproject lxsli/picomock "0.1.11-SNAPSHOT"
+(defproject lxsli/picomock "0.1.12-SNAPSHOT"
   :description "Simple mocking helper library"
   :url "https://github.com/lxsli/picomock"
   :license {:name "Eclipse Public License - v 1.0"
@@ -10,6 +10,7 @@
 
   :repositories [["releases" {:url "https://clojars.org/repo"
                               :creds :gpg}]]
+  :lein-release {:deploy-via :clojars}
 
   :release-tasks [["vcs" "assert-committed"]
                   ["change" "version" "leiningen.release/bump-version" "release"]
