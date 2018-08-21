@@ -60,6 +60,8 @@
   (mock-completetimes [this]
     (:completetimes @callstate))
   clojure.lang.IFn
+  (applyTo [this xs]
+    (apply invoke* callstate xs))
   (invoke [this]
     (invoke* callstate))
   (invoke [this a]
